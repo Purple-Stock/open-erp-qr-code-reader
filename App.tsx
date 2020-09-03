@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
-import { View, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 
 import Routes from './src/routes';

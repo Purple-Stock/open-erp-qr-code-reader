@@ -28,7 +28,7 @@ const Home: React.FC = () => {
                   'https://s3.amazonaws.com/petcentral.com/wp-content/uploads/2016/09/26151523/Golden-Retriever-Dog-Breed-940x503.jpg',
               }}
             />
-            <UserHello>Olá, Tetas</UserHello>
+            <UserHello>Olá, Cachorro</UserHello>
           </View>
 
           <Feather name="bell" size={24} color="#fff" />

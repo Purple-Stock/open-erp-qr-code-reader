@@ -1,9 +1,7 @@
 import styled from 'styled-components/native';
-import { Feather } from '@expo/vector-icons';
 import { FlatList } from 'react-native-gesture-handler';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 
-import Button from '../../components/Button';
 import { IProduct } from '.';
 
 interface IProductContainerProps {
@@ -82,12 +80,6 @@ export const PopupText = styled.Text`
 export const PopupButton = styled.Text`
   font-size: 16px;
 `;
-
-export const PopupSpace = styled.View`
-  width: 10px;
-`;
-
-export const PopupIcon = styled(Feather)``;
 
 export const ModalTitle = styled.Text`
   font-family: 'Roboto-Medium';

@@ -1,17 +1,19 @@
 import React from 'react';
 import { TouchableOpacityProps } from 'react-native';
 
-import { Container, ButtonText } from './styles';
+import { Container, ButtonText, ButtonMargin, ButtonIcon } from './styles';
 
 interface IButtonProps extends TouchableOpacityProps {
   isDisabled?: boolean;
   containerStyle?: {};
+  icon?: string;
 }
 
 const Button: React.FC<IButtonProps> = ({
   children,
   isDisabled = false,
   containerStyle = {},
+  icon,
   ...rest
 }) => {
   return (
@@ -23,6 +25,12 @@ const Button: React.FC<IButtonProps> = ({
       {...rest}
     >
       <ButtonText>{children}</ButtonText>
+      {icon && (
+        <>
+          <ButtonMargin />
+          <ButtonIcon name={icon} size={18} color="#2d3436" />
+        </>
+      )}
     </Container>
   );
 };

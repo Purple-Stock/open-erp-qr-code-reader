@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components/native';
+import { Feather } from '@expo/vector-icons';
 
 interface IButtonProps {
   isDisabled?: boolean;
@@ -11,6 +12,7 @@ export const Container = styled.TouchableOpacity<IButtonProps>`
   height: 44px;
   padding: 0 20px;
 
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 
@@ -26,3 +28,9 @@ export const ButtonText = styled.Text`
   color: #312e38;
   font-size: 16px;
 `;
+
+export const ButtonMargin = styled.View`
+  width: 10px;
+`;
+
+export const ButtonIcon = styled(Feather)``;
