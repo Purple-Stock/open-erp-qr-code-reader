@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,7 +6,6 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import QrReader from 'react-qr-reader';
 
 import Button from '../../components/Button';
-import Popup from '../../components/Popup';
 import api from '../../services/api';
 import { useModal } from '../../hooks/modal';
 import { usePopup } from '../../hooks/popup';
@@ -19,8 +18,6 @@ import {
   CornerBottomRight,
   PopupText,
   PopupButton,
-  PopupSpace,
-  PopupIcon,
   ModalTitle,
   ProductsList,
   ProductContainer,
@@ -77,10 +74,8 @@ const Register: React.FC = () => {
       <>
         <PopupText>Produto Adicionado!</PopupText>
 
-        <Button onPress={closePopup}>
+        <Button onPress={closePopup} icon="check-circle">
           <PopupButton>Ok</PopupButton>
-          <PopupSpace />
-          <PopupIcon name="check-circle" size={18} color="#2d3436" />
         </Button>
       </>
     );
@@ -97,10 +92,8 @@ const Register: React.FC = () => {
       <>
         <PopupText>Enviado com sucesso!</PopupText>
 
-        <Button onPress={closePopup}>
+        <Button onPress={closePopup} icon="check-circle">
           <PopupButton>Ok</PopupButton>
-          <PopupSpace />
-          <PopupIcon name="check-circle" size={18} />
         </Button>
       </>
     );
