@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from 'react-native';
 
-import { Backdrop, Container } from './styles';
+import { Container, Backdrop, Content } from './styles';
 
 const { height } = Dimensions.get('window');
 
@@ -52,8 +52,9 @@ const Modal: React.FC<IModalProps> = ({ children, onClose }) => {
   useEffect(() => handleAnimation(0), [handleAnimation]);
 
   return (
-    <Backdrop ref={backdropRef} activeOpacity={1} onPress={handleClose}>
-      <Container
+    <Container>
+      <Backdrop ref={backdropRef} activeOpacity={1} onPress={handleClose} />
+      <Content
         style={{
           transform: [
             {
@@ -66,8 +67,8 @@ const Modal: React.FC<IModalProps> = ({ children, onClose }) => {
         }}
       >
         {children}
-      </Container>
-    </Backdrop>
+      </Content>
+    </Container>
   );
 };
 

@@ -3,7 +3,7 @@ import { Dimensions, Animated } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-export const Backdrop = styled.TouchableOpacity`
+export const Container = styled.View`
   background: rgba(0, 0, 0, 0.6);
   width: ${width}px;
   height: ${height}px;
@@ -11,7 +11,12 @@ export const Backdrop = styled.TouchableOpacity`
   bottom: 0;
 `;
 
-export const Container = styled(Animated.View)`
+export const Backdrop = styled.TouchableOpacity`
+  width: ${width}px;
+  height: ${height * 0.15 + 30}px;
+`;
+
+export const Content = styled(Animated.View)`
   height: 85%;
   width: 100%;
   background: #fff;
@@ -20,7 +25,4 @@ export const Container = styled(Animated.View)`
   padding: 30px 20px 0;
   position: absolute;
   bottom: 0;
-
-  justify-content: space-between;
-  align-items: center;
 `;
