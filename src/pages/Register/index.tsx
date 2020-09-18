@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import QrReader from 'react-qr-reader';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 
 import Button from '../../components/Button';
 import api from '../../services/api';
@@ -18,11 +20,14 @@ import {
   CornerBottomRight,
   PopupText,
   PopupButton,
+  ModalContent,
   ModalTitle,
   ProductsList,
   ProductContainer,
   ProductName,
   ProductQuantity,
+  ProductQuantityLabel,
+  ProductQuantityInput,
   ModalFooter,
 } from './styles';
 
@@ -38,6 +43,8 @@ interface IScannedProduct {
 }
 
 const Register: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+
   const [hasPermission, setHasPermission] = useState(false);
   const [scannerReady, setScannerReady] = useState(true);
 
@@ -183,26 +190,38 @@ const Register: React.FC = () => {
 
   const handleOpenModal = useCallback(() => {
     showModal(
-      <>
-        <ModalTitle>Produtos</ModalTitle>
+      <ModalContent>
+        <Form ref={formRef} onSubmit={() => null} style={{ width: '100%' }}>
+          <ModalTitle>Produtos</ModalTitle>
 
-        <ProductsList
-          data={products}
-          keyExtractor={product => String(product.id)}
-          renderItem={({ item: product, index }) => (
-            <ProductContainer last={index === products.length - 1}>
-              <ProductName>Nome: {product.name}</ProductName>
-              <ProductQuantity>Quantidade: {product.quantity}</ProductQuantity>
-            </ProductContainer>
-          )}
-        />
+          <ProductsList
+            data={products}
+            keyExtractor={product => String(product.id)}
+            renderItem={({ item: product, index }) => (
+              <ProductContainer last={index === products.length - 1}>
+                <ProductName>Nome: {product.name}</ProductName>
 
-        <ModalFooter>
-          <Button containerStyle={{ width: 120 }} onPress={handleSendProducts}>
-            Enviar
-          </Button>
-        </ModalFooter>
-      </>
+                <ProductQuantity>
+                  <ProductQuantityLabel>Quantidade: </ProductQuantityLabel>
+                  <ProductQuantityInput
+                    name="quantity"
+                    keyboardType="number-pad"
+                  />
+                </ProductQuantity>
+              </ProductContainer>
+            )}
+          />
+
+          <ModalFooter>
+            <Button
+              containerStyle={{ width: 120 }}
+              onPress={handleSendProducts}
+            >
+              Enviar
+            </Button>
+          </ModalFooter>
+        </Form>
+      </ModalContent>
     );
   }, [handleSendProducts, products, showModal]);
 
