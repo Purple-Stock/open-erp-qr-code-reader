@@ -20,16 +20,7 @@ const ProductsContext = createContext<ProductsContextData>(
 );
 
 const ProductsProvider: React.FC = ({ children }) => {
-  const [products, setProducts] = useState<IProduct[]>([
-    { id: 'asdghdga', name: 'Tetas', quantity: 3 },
-    { id: 'fgfgddfg', name: 'Tetas', quantity: 3 },
-    { id: 'dasdasasd', name: 'Tetas', quantity: 3 },
-    { id: 'sfgfgddf', name: 'Tetas', quantity: 3 },
-    { id: 'gfgffgfg', name: 'Tetas', quantity: 3 },
-    { id: 'sdfgsdfsdf', name: 'Tetas', quantity: 3 },
-    { id: 'gffgfgfgfg', name: 'Tetas', quantity: 3 },
-    { id: 'gffgfffff', name: 'Tetas', quantity: 3 },
-  ]);
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   const updateProducts = useCallback((productsData: IProduct[]) => {
     setProducts(productsData);
