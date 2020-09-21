@@ -27,7 +27,6 @@ const PopupProvider: React.FC = ({ children }) => {
   }, []);
 
   const closeCallback = useCallback((callback?: Function) => {
-    console.log(callback);
     if (callback) {
       callback();
     }

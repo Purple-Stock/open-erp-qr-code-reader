@@ -1,16 +1,15 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Platform } from 'react-native';
 import { Camera } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import QrReader from 'react-qr-reader';
-import { Form } from '@unform/mobile';
-import { FormHandles } from '@unform/core';
 
+import ProductsList from './ProductsList';
 import Button from '../../components/Button';
-import api from '../../services/api';
 import { useModal } from '../../hooks/modal';
 import { usePopup } from '../../hooks/popup';
+import { useProducts } from '../../hooks/products';
 import {
   Container,
   CameraBox,
@@ -20,15 +19,6 @@ import {
   CornerBottomRight,
   PopupText,
   PopupButton,
-  ModalContent,
-  ModalTitle,
-  ProductsList,
-  ProductContainer,
-  ProductName,
-  ProductQuantity,
-  ProductQuantityLabel,
-  ProductQuantityInput,
-  ModalFooter,
 } from './styles';
 
 export interface IProduct {
@@ -43,28 +33,28 @@ interface IScannedProduct {
 }
 
 const Register: React.FC = () => {
-  const formRef = useRef<FormHandles>(null);
-
   const [hasPermission, setHasPermission] = useState(false);
   const [scannerReady, setScannerReady] = useState(true);
 
-  const [products, setProducts] = useState<IProduct[]>([]);
-
-  const { showModal, closeModal } = useModal();
+  const { products, updateProducts } = useProducts();
+  const { showModal } = useModal();
   const { showPopup, closePopup, closeCallback } = usePopup();
 
   useEffect(() => {
     (async () => {
       if (Platform.OS === 'web') {
         setHasPermission(true);
+
         return;
       }
+
       const { status } = await Camera.requestPermissionsAsync();
+
       setHasPermission(status === 'granted');
     })();
   }, []);
 
-  const delay = useCallback(time => {
+  const delay = useCallback((time: number) => {
     return new Promise(resolve => {
       setTimeout(() => resolve(), time);
     });
@@ -75,8 +65,10 @@ const Register: React.FC = () => {
 
     setScannerReady(true);
   }, [delay]);
+
   const handleShowAddPopup = useCallback(() => {
     closeCallback(handleCloseAddPopup);
+
     showPopup(
       <>
         <PopupText>Produto Adicionado!</PopupText>
@@ -88,27 +80,9 @@ const Register: React.FC = () => {
     );
   }, [handleCloseAddPopup, showPopup, closePopup, closeCallback]);
 
-  const handleCloseSendPopup = useCallback(() => {
-    closePopup();
-    closeModal();
-    setProducts([]);
-  }, [closeModal, closePopup]);
-  const handleShowSendPopup = useCallback(() => {
-    closeCallback(handleCloseSendPopup);
-    showPopup(
-      <>
-        <PopupText>Enviado com sucesso!</PopupText>
-
-        <Button onPress={closePopup} icon="check-circle">
-          <PopupButton>Ok</PopupButton>
-        </Button>
-      </>
-    );
-  }, [handleCloseSendPopup, showPopup, closePopup, closeCallback]);
-
   const findProduct = useCallback(
-    (scannedProduct: IScannedProduct) => {
-      return products.find(product => product.id === scannedProduct.id);
+    (productId: string) => {
+      return products.find(product => product.id === productId);
     },
     [products]
   );
@@ -128,16 +102,20 @@ const Register: React.FC = () => {
 
   const addProduct = useCallback(
     (scannedProduct: IScannedProduct) => {
-      const productExists = findProduct(scannedProduct);
+      const productExists = findProduct(scannedProduct.id);
 
       if (productExists) {
         const transformedProducts = transformProducts(scannedProduct);
-        setProducts(transformedProducts);
+        updateProducts(transformedProducts);
       } else {
-        setProducts(state => [...state, { ...scannedProduct, quantity: 1 }]);
+        const updatedProducts = [
+          ...products,
+          { ...scannedProduct, quantity: 1 },
+        ];
+        updateProducts(updatedProducts);
       }
     },
-    [findProduct, transformProducts]
+    [findProduct, products, updateProducts, transformProducts]
   );
 
   const handleScan = useCallback(
@@ -172,58 +150,9 @@ const Register: React.FC = () => {
     console.error(err);
   }, []);
 
-  const handleSendProducts = useCallback(async () => {
-    const headers = { 'Content-Type': 'application/json' };
-    const productsData = products.map(product => ({
-      product_id: product.id,
-      quantity: product.quantity,
-    }));
-
-    await api.post(
-      'purchase_products/add_products',
-      { products: productsData },
-      { headers }
-    );
-
-    handleShowSendPopup();
-  }, [products, handleShowSendPopup]);
-
   const handleOpenModal = useCallback(() => {
-    showModal(
-      <ModalContent>
-        <Form ref={formRef} onSubmit={() => null} style={{ width: '100%' }}>
-          <ModalTitle>Produtos</ModalTitle>
-
-          <ProductsList
-            data={products}
-            keyExtractor={product => String(product.id)}
-            renderItem={({ item: product, index }) => (
-              <ProductContainer last={index === products.length - 1}>
-                <ProductName>Nome: {product.name}</ProductName>
-
-                <ProductQuantity>
-                  <ProductQuantityLabel>Quantidade: </ProductQuantityLabel>
-                  <ProductQuantityInput
-                    name="quantity"
-                    keyboardType="number-pad"
-                  />
-                </ProductQuantity>
-              </ProductContainer>
-            )}
-          />
-
-          <ModalFooter>
-            <Button
-              containerStyle={{ width: 120 }}
-              onPress={handleSendProducts}
-            >
-              Enviar
-            </Button>
-          </ModalFooter>
-        </Form>
-      </ModalContent>
-    );
-  }, [handleSendProducts, products, showModal]);
+    showModal(<ProductsList />);
+  }, [showModal]);
 
   if (hasPermission === null) {
     return <View />;
