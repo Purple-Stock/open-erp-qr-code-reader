@@ -22,35 +22,41 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
 
   const { products, updateProducts } = useProducts();
 
-  const decrementQuantity = useCallback(() => {
-    if (quantity > 1) {
-      const updatedQuantity = quantity - 1;
-
-      const updatedProducts = products.map(product => {
+  const updateProductsQuantity = useCallback(
+    (updatedQuantity: number) => {
+      return products.map(product => {
         if (product.id === id) {
           return { ...product, quantity: updatedQuantity };
         }
 
         return { ...product };
       });
+    },
+    [id, products]
+  );
+
+  const updateQuantity = useCallback(
+    (updatedQuantity: number) => {
+      const updatedProducts = updateProductsQuantity(updatedQuantity);
 
       updateProducts(updatedProducts);
+    },
+    [updateProducts, updateProductsQuantity]
+  );
+
+  const decrementQuantity = useCallback(() => {
+    if (quantity > 1) {
+      const updatedQuantity = quantity - 1;
+
+      updateQuantity(updatedQuantity);
     }
-  }, [id, products, quantity, updateProducts]);
+  }, [quantity, updateQuantity]);
 
   const incrementQuantity = useCallback(() => {
     const updatedQuantity = quantity + 1;
 
-    const updatedProducts = products.map(product => {
-      if (product.id === id) {
-        return { ...product, quantity: updatedQuantity };
-      }
-
-      return { ...product };
-    });
-
-    updateProducts(updatedProducts);
-  }, [id, products, quantity, updateProducts]);
+    updateQuantity(updatedQuantity);
+  }, [quantity, updateQuantity]);
 
   const deleteItem = useCallback(() => {
     const updatedProducts = products.filter(product => product.id !== id);
@@ -66,9 +72,9 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
         <QuantityLabel>Quantidade: </QuantityLabel>
         <QuantityIcon name="minus" size={18} onPress={decrementQuantity} />
         <Input
-          value={quantity.toString()}
           name={`quantity-${id}`}
           keyboardType="number-pad"
+          onChangeText={value => updateQuantity(Number(value))}
         />
         <QuantityIcon name="plus" size={18} onPress={incrementQuantity} />
       </Quantity>
