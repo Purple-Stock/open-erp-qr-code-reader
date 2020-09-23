@@ -37,7 +37,7 @@ const Register: React.FC = () => {
   const [scannerReady, setScannerReady] = useState(true);
 
   const { products, updateProducts } = useProducts();
-  const { showModal } = useModal();
+  const { showModal, show: isModalVisible } = useModal();
   const { showPopup, closePopup, closeCallback } = usePopup();
 
   useEffect(() => {
@@ -53,6 +53,12 @@ const Register: React.FC = () => {
       setHasPermission(status === 'granted');
     })();
   }, []);
+
+  useEffect(() => {
+    if (!isModalVisible) {
+      setScannerReady(true);
+    }
+  }, [isModalVisible]);
 
   const delay = useCallback((time: number) => {
     return new Promise(resolve => {
@@ -152,6 +158,7 @@ const Register: React.FC = () => {
 
   const handleOpenModal = useCallback(() => {
     showModal(<ProductsList />);
+    setScannerReady(false);
   }, [showModal]);
 
   if (hasPermission === null) {
