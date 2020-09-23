@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
@@ -17,10 +17,6 @@ const ProductsList: React.FC = () => {
   const { products, updateProducts } = useProducts();
   const { closeCallback, closePopup, showPopup } = usePopup();
   const { closeModal } = useModal();
-
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
 
   const handleCloseSendPopup = useCallback(() => {
     closePopup();
@@ -57,9 +53,20 @@ const ProductsList: React.FC = () => {
     handleShowSendPopup();
   }, [products, handleShowSendPopup]);
 
+  const formData = useMemo(() => {
+    return Object.fromEntries(
+      products.map(({ id, quantity }) => [[`quantity-${id}`], String(quantity)])
+    );
+  }, [products]);
+
   return (
     <Container>
-      <Form ref={formRef} onSubmit={() => null} style={{ height: '100%' }}>
+      <Form
+        initialData={formData}
+        ref={formRef}
+        onSubmit={() => null}
+        style={{ height: '100%' }}
+      >
         <Title>Produtos</Title>
 
         <List
