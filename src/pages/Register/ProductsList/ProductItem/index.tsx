@@ -26,7 +26,10 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
     (updatedQuantity: number) => {
       return products.map(product => {
         if (product.id === id) {
-          return { ...product, quantity: updatedQuantity };
+          return {
+            ...product,
+            quantity: updatedQuantity < 1 ? 1 : updatedQuantity,
+          };
         }
 
         return { ...product };
@@ -74,7 +77,7 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
         <Input
           name={`quantity-${id}`}
           keyboardType="number-pad"
-          onChangeText={value => updateQuantity(Number(value))}
+          onBlur={event => updateQuantity(Number(event.nativeEvent.text))}
         />
         <QuantityIcon name="plus" size={18} onPress={incrementQuantity} />
       </Quantity>
