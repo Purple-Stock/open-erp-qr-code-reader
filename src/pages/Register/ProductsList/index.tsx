@@ -54,9 +54,13 @@ const ProductsList: React.FC = () => {
   }, [products, handleShowSendPopup]);
 
   const formData = useMemo(() => {
-    return Object.fromEntries(
+    const data = Object.fromEntries(
       products.map(({ id, quantity }) => [[`quantity-${id}`], String(quantity)])
     );
+
+    formRef.current?.setData(data);
+
+    return data;
   }, [products]);
 
   return (
