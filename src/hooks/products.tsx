@@ -6,10 +6,6 @@ interface IProduct {
   quantity: number;
 }
 
-interface ProductsState {
-  products: IProduct;
-}
-
 interface ProductsContextData {
   products: IProduct[];
   updateProducts(products: IProduct[]): void;
