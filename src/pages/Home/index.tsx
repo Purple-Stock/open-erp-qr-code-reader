@@ -24,11 +24,10 @@ const Home: React.FC = () => {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <UserImage
               source={{
-                uri:
-                  'https://s3.amazonaws.com/petcentral.com/wp-content/uploads/2016/09/26151523/Golden-Retriever-Dog-Breed-940x503.jpg',
+                uri: 'https://api.adorable.io/avatars/285/john.png',
               }}
             />
-            <UserHello>Olá, Cachorro</UserHello>
+            <UserHello>Olá, John Doe</UserHello>
           </View>
 
           <Feather name="bell" size={24} color="#fff" />

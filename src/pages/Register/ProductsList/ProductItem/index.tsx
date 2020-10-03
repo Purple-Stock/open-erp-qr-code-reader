@@ -24,11 +24,16 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
 
   const updateProductsQuantity = useCallback(
     (updatedQuantity: number) => {
+      const transformedQuantity =
+        Number.isNaN(updatedQuantity) || updatedQuantity < 1
+          ? 1
+          : updatedQuantity;
+
       return products.map(product => {
         if (product.id === id) {
           return {
             ...product,
-            quantity: updatedQuantity < 1 ? 1 : updatedQuantity,
+            quantity: transformedQuantity,
           };
         }
 
