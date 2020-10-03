@@ -82,7 +82,7 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
         <Input
           name={`quantity-${id}`}
           keyboardType="number-pad"
-          onBlur={event => updateQuantity(Number(event.nativeEvent.text))}
+          onEndEditing={event => updateQuantity(Number(event.nativeEvent.text))}
         />
         <QuantityIcon name="plus" size={18} onPress={incrementQuantity} />
       </Quantity>
