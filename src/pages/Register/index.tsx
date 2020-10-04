@@ -4,6 +4,7 @@ import { Camera } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import QrReader from 'react-qr-reader';
+import { useBackHandler } from '@react-native-community/hooks';
 
 import ProductsList from './ProductsList';
 import Button from '../../components/Button';
@@ -37,8 +38,17 @@ const Register: React.FC = () => {
   const [scannerReady, setScannerReady] = useState(true);
 
   const { products, updateProducts } = useProducts();
-  const { showModal, show: isModalVisible } = useModal();
+  const { showModal, closeModal, show: isModalVisible } = useModal();
   const { showPopup, closePopup, closeCallback } = usePopup();
+
+  useBackHandler(() => {
+    if (isModalVisible) {
+      closeModal();
+      return true;
+    }
+
+    return false;
+  });
 
   useEffect(() => {
     (async () => {
