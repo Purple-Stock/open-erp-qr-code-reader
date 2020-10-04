@@ -1,8 +1,20 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+import { Feather } from '@expo/vector-icons';
 
-import { Container, Title, List, Footer } from './styles';
+import {
+  Container,
+  TitleContainer,
+  Title,
+  SelectTitle,
+  SelectText,
+  SelectedText,
+  Select,
+  SelectItem,
+  List,
+  Footer,
+} from './styles';
 import { PopupText, PopupButton } from '../styles';
 import ProductItem from './ProductItem';
 import Button from '../../../components/Button';
@@ -11,7 +23,19 @@ import { usePopup } from '../../../hooks/popup';
 import { useModal } from '../../../hooks/modal';
 import api from '../../../services/api';
 
+interface IStore {
+  name: string;
+  value: number;
+}
+
 const ProductsList: React.FC = () => {
+  const [stores] = useState<IStore[]>([
+    { name: 'Purchase Store RS', value: 1 },
+    { name: 'Purchase Store SP', value: 2 },
+  ]);
+  const [selectedStore, setSelectedStore] = useState<IStore>(stores[1]);
+  const [showSelect, setShowSelect] = useState(false);
+
   const formRef = useRef<FormHandles>(null);
 
   const { products, updateProducts } = useProducts();
@@ -46,12 +70,12 @@ const ProductsList: React.FC = () => {
 
     await api.post(
       'purchase_products/add_products',
-      { products: productsData },
+      { store_entrance: selectedStore.value, products: productsData },
       { headers }
     );
 
     handleShowSendPopup();
-  }, [products, handleShowSendPopup]);
+  }, [products, selectedStore.value, handleShowSendPopup]);
 
   const formData = useMemo(() => {
     const data = Object.fromEntries(
@@ -63,6 +87,17 @@ const ProductsList: React.FC = () => {
     return data;
   }, [products]);
 
+  const handleStoreChange = useCallback(
+    value => {
+      const storeItem = stores.find(store => store.value === value);
+
+      if (storeItem) {
+        setSelectedStore(storeItem);
+      }
+    },
+    [stores]
+  );
+
   return (
     <Container>
       <Form
@@ -71,7 +106,30 @@ const ProductsList: React.FC = () => {
         onSubmit={() => null}
         style={{ height: '100%' }}
       >
-        <Title>Produtos</Title>
+        <TitleContainer>
+          <Title>Produtos</Title>
+          <SelectTitle>
+            <SelectText>Loja: </SelectText>
+            <SelectedText>{selectedStore.name}</SelectedText>
+            <Feather
+              name="edit"
+              size={18}
+              style={{ marginLeft: 20 }}
+              onPress={() => setShowSelect(prev => !prev)}
+            />
+          </SelectTitle>
+        </TitleContainer>
+
+        {showSelect && (
+          <Select
+            selectedValue={selectedStore.value}
+            onValueChange={handleStoreChange}
+          >
+            {stores.map(({ name, value }) => (
+              <SelectItem key={value} label={name} value={value} />
+            ))}
+          </Select>
+        )}
 
         <List
           data={products}
