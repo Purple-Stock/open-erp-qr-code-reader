@@ -72,6 +72,19 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
     updateProducts(updatedProducts);
   }, [id, products, updateProducts]);
 
+  const handleNegativeNumbers = useCallback(
+    (value: string) => {
+      const numberValue = Number(value);
+
+      if (Number.isNaN(numberValue) || numberValue < 0) {
+        return updateQuantity(1);
+      }
+
+      return value;
+    },
+    [updateQuantity]
+  );
+
   return (
     <Container last={last}>
       <Name>Nome: {name}</Name>
@@ -82,6 +95,7 @@ const ProductItem: React.FC<IProductItem> = ({ data: productData, last }) => {
         <Input
           name={`quantity-${id}`}
           keyboardType="number-pad"
+          onChangeText={handleNegativeNumbers}
           onEndEditing={event => updateQuantity(Number(event.nativeEvent.text))}
         />
         <QuantityIcon name="plus" size={18} onPress={incrementQuantity} />
