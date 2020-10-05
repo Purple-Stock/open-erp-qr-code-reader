@@ -16,9 +16,7 @@ const InventoryContext = createContext<InventoryContextData>(
 );
 
 const InventoryProvider: React.FC = ({ children }) => {
-  const [inventory, setInventory] = useState<IProduct[]>([
-    { id: 'tetas1', name: 'Tetas 1', quantity: 1 },
-  ]);
+  const [inventory, setInventory] = useState<IProduct[]>([]);
 
   const updateInventory = useCallback((inventoryData: IProduct[]) => {
     setInventory(inventoryData);
