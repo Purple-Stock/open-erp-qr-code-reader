@@ -67,10 +67,10 @@ const Home: React.FC = () => {
 
           <Option
             activeOpacity={0.8}
-            onPress={() => navigation.navigate('RegisterMulti')}
+            onPress={() => navigation.navigate('Inventory')}
           >
-            <Feather name="layers" size={36} color="#2d3436" />
-            <OptionLabel>Entrada em massa</OptionLabel>
+            <Feather name="archive" size={36} color="#2d3436" />
+            <OptionLabel>Inventário</OptionLabel>
           </Option>
         </OptionsList>
       </Container>
