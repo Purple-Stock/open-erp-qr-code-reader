@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../pages/Home';
 import Reader from '../pages/Reader';
 import Register from '../pages/Register';
-import RegisterMulti from '../pages/RegisterMulti';
+import Inventory from '../pages/Inventory';
 
 const Stack = createStackNavigator();
 
@@ -28,8 +28,16 @@ const Routes: React.FC = () => {
             component={Home}
           />
           <Stack.Screen name="Reader" component={Reader} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="RegisterMulti" component={RegisterMulti} />
+          <Stack.Screen
+            name="Register"
+            component={Register}
+            options={{ title: 'Cadastrar entrada' }}
+          />
+          <Stack.Screen
+            name="Inventory"
+            component={Inventory}
+            options={{ title: 'Inventário' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
