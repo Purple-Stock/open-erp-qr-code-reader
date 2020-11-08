@@ -28,8 +28,8 @@ const InventoryItem: React.FC<IInventoryItem> = ({
   const updateProductsQuantity = useCallback(
     (updatedQuantity: number) => {
       const transformedQuantity =
-        Number.isNaN(updatedQuantity) || updatedQuantity < 1
-          ? 1
+        Number.isNaN(updatedQuantity) || updatedQuantity < 0
+          ? 0
           : updatedQuantity;
 
       return inventory.map(inventoryItem => {
@@ -56,7 +56,7 @@ const InventoryItem: React.FC<IInventoryItem> = ({
   );
 
   const decrementQuantity = useCallback(() => {
-    if (quantity > 1) {
+    if (quantity >= 1) {
       const updatedQuantity = quantity - 1;
 
       updateQuantity(updatedQuantity);
