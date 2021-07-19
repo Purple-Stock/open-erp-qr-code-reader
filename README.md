@@ -2,6 +2,12 @@
 
 Mobile app built-in React Native with Expo to serve as a stock control system.
 
+## Images from Application
+![appimages file](images/image-1.jpeg)
+![appimages file](images/image-2.jpeg)
+![appimages file](images/image-3.jpeg)
+![appimages file](images/image-4.jpeg)
+
 ## Installation
 
 ```bash
