@@ -4,6 +4,7 @@ interface IProduct {
   id: string;
   name: string;
   quantity: number;
+  account_id: number;
 }
 
 interface ProductsContextData {

@@ -27,7 +27,7 @@ const Home: React.FC = () => {
                 uri: 'https://api.adorable.io/avatars/285/john.png',
               }}
             />
-            <UserHello>Olá, John Doe</UserHello>
+            <UserHello>Olá, Concremwood</UserHello>
           </View>
 
           <Feather name="bell" size={24} color="#fff" />
@@ -43,19 +43,19 @@ const Home: React.FC = () => {
             textDecorationLine: 'underline',
           }}
         >
-          TEMPLATE
+          
         </Text>
       </Header>
 
       <Container>
         <OptionsList>
-          <Option
+          {/* <Option
             activeOpacity={0.8}
             onPress={() => navigation.navigate('Reader')}
           >
             <Feather name="maximize" size={36} color="#2d3436" />
             <OptionLabel>Ler produto</OptionLabel>
-          </Option>
+          </Option> */}
 
           <Option
             activeOpacity={0.8}
@@ -65,13 +65,13 @@ const Home: React.FC = () => {
             <OptionLabel>Cadastrar entrada</OptionLabel>
           </Option>
 
-          <Option
+          {/* <Option
             activeOpacity={0.8}
             onPress={() => navigation.navigate('Inventory')}
           >
             <Feather name="archive" size={36} color="#2d3436" />
             <OptionLabel>Inventário</OptionLabel>
-          </Option>
+          </Option> */}
         </OptionsList>
       </Container>
     </>

@@ -30,8 +30,8 @@ interface IStore {
 
 const ProductsList: React.FC = () => {
   const [stores] = useState<IStore[]>([
-    { name: 'Purchase Store RS', value: 1 },
-    { name: 'Purchase Store SP', value: 2 },
+    { name: 'Loja 1', value: 1 },
+    { name: 'Loja 2', value: 2 },
   ]);
   const [selectedStore, setSelectedStore] = useState<IStore>(stores[1]);
   const [showSelect, setShowSelect] = useState(false);
@@ -66,6 +66,7 @@ const ProductsList: React.FC = () => {
     const productsData = products.map(product => ({
       product_id: product.id,
       quantity: product.quantity,
+      account_id: 1
     }));
 
     await api.post(
