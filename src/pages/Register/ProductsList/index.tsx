@@ -30,10 +30,10 @@ interface IStore {
 
 const ProductsList: React.FC = () => {
   const [stores] = useState<IStore[]>([
-    { name: 'Loja 1', value: 1 },
-    { name: 'Loja 2', value: 2 },
+    { name: 'Loja Principal', value: 1 },
+    { name: 'Loja Secundária', value: 2 },
   ]);
-  const [selectedStore, setSelectedStore] = useState<IStore>(stores[1]);
+  const [selectedStore, setSelectedStore] = useState<IStore>(stores[0]);
   const [showSelect, setShowSelect] = useState(false);
 
   const formRef = useRef<FormHandles>(null);
