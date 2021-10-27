@@ -65,13 +65,13 @@ const Home: React.FC = () => {
             <OptionLabel>Cadastrar entrada</OptionLabel>
           </Option>
 
-          {/* <Option
+          <Option
             activeOpacity={0.8}
             onPress={() => navigation.navigate('Inventory')}
           >
-            <Feather name="archive" size={36} color="#2d3436" />
-            <OptionLabel>Inventário</OptionLabel>
-          </Option> */}
+            <Feather name="minus-circle" size={36} color="#2d3436" />
+            <OptionLabel>Retirar Estoque</OptionLabel>
+          </Option>
         </OptionsList>
       </Container>
     </>

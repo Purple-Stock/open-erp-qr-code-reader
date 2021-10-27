@@ -36,7 +36,7 @@ const Routes: React.FC = () => {
           <Stack.Screen
             name="Inventory"
             component={Inventory}
-            options={{ title: 'Inventário' }}
+            options={{ title: 'Retirar Estoque' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

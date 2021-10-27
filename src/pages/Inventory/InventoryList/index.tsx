@@ -30,10 +30,10 @@ interface IStore {
 
 const InventoryList: React.FC = () => {
   const [stores] = useState<IStore[]>([
-    { name: 'Purchase Store RS', value: 1 },
-    { name: 'Purchase Store SP', value: 2 },
+    { name: 'Loja Principal', value: 1 },
+    { name: 'Loja Secundária', value: 2 },
   ]);
-  const [selectedStore, setSelectedStore] = useState<IStore>(stores[1]);
+  const [selectedStore, setSelectedStore] = useState<IStore>(stores[0]);
   const [showSelect, setShowSelect] = useState(false);
 
   const formRef = useRef<FormHandles>(null);
@@ -66,11 +66,12 @@ const InventoryList: React.FC = () => {
     const inventoryData = inventory.map(inventoryItem => ({
       product_id: inventoryItem.id,
       quantity: inventoryItem.quantity,
+      account_id: 1
     }));
 
     await api.post(
-      'purchase_products/add_inventory_quantity',
-      { store_entrance: selectedStore.value, products: inventoryData },
+      'sale_products/remove_products',
+      { store_sale: selectedStore.value, products: inventoryData },
       { headers }
     );
 
