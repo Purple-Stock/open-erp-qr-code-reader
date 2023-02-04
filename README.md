@@ -2,6 +2,8 @@
 
 Mobile app built-in React Native with Expo to serve as a stock control system.
 
+Backend: https://github.com/Purple-Stock/open-erp
+
 ## Images from Application
 ![appimages file](images/image-1.jpeg)
 ![appimages file](images/image-2.jpeg)
